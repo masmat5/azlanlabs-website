@@ -163,6 +163,7 @@ svg.lucide.card-icon { width: 30px; height: 30px; color: var(--accent-ink); marg
 
 /* case studies */
 .case { display: grid; grid-template-columns: 4fr 8fr; gap: clamp(24px, 4vw, 56px); align-items: center; padding-top: 0; }
+.case-reverse { grid-template-columns: 8fr 4fr; }
 .case-reverse .case-copy { order: 2; }
 .case h2 { font-size: var(--fs-display-m); }
 .case .lede { margin: 18px 0 26px; }
@@ -174,7 +175,7 @@ svg.lucide.card-icon { width: 30px; height: 30px; color: var(--accent-ink); marg
 .case-shots img { min-width: 0; width: 100%; height: auto; border-radius: 14px; border: 1.5px solid var(--ink); background: var(--paper-2); transition: transform .3s var(--ease); }
 .case-shots.stagger img:nth-child(even) { margin-top: 36px; }
 .case-shots img:hover { transform: translateY(-6px); }
-@media (max-width: 960px) { .case { grid-template-columns: 1fr; } .case-reverse .case-copy { order: 0; } }
+@media (max-width: 960px) { .case, .case-reverse { grid-template-columns: 1fr; } .case-reverse .case-copy { order: 0; } }
 @media (max-width: 560px) { .case-shots { flex-wrap: wrap; } .case-shots img { flex: 1 1 calc(50% - 6px) !important; } .case-shots.stagger img:nth-child(even) { margin-top: 24px; } }
 
 /* why */

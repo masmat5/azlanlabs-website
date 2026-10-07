@@ -1,5 +1,5 @@
 import {
-  BookOpen, Languages, LayoutDashboard, ListChecks, MessagesSquare, Moon, Package, ShoppingCart, Timer, TriangleAlert, WifiOff,
+  BookOpen, Languages, LayoutDashboard, ListChecks, Mic, Moon, Package, ShoppingCart, Timer, TrendingUp, TriangleAlert, WifiOff,
   type LucideIcon,
 } from "lucide-react";
 import { caseStudies, type CaseStudyData, type IconName } from "../content";
@@ -8,7 +8,7 @@ import { useReveal } from "../hooks";
 const ICONS: Record<IconName, LucideIcon> = {
   dashboard: LayoutDashboard, attendance: TriangleAlert, language: Languages, dark: Moon,
   cart: ShoppingCart, ledger: BookOpen, stock: Package, offline: WifiOff,
-  questions: ListChecks, mock: Timer, guide: BookOpen, interview: MessagesSquare,
+  questions: ListChecks, mock: Timer, progress: TrendingUp, interview: Mic,
 };
 
 function CaseStudy({ study, reverse }: { study: CaseStudyData; reverse: boolean }) {

@@ -64,7 +64,7 @@ export const projects: Project[] = [
 export type IconName =
   | "dashboard" | "attendance" | "language" | "dark"
   | "cart" | "ledger" | "stock" | "offline"
-  | "questions" | "mock" | "guide" | "interview";
+  | "questions" | "mock" | "progress" | "interview";
 
 export interface CaseStudyData {
   id: string;
@@ -107,26 +107,37 @@ export const caseStudies: CaseStudyData[] = [
     intro:
       "A point-of-sale and digital khata app for shops. Billing, udhaar ledgers and stock live in one place, and it keeps working without internet.",
     features: [
-      { icon: "cart", title: "Fast billing", text: "Tap items or scan barcodes, apply discounts and send the bill on WhatsApp." },
-      { icon: "ledger", title: "Udhaar khata", text: "Live totals of what customers owe you and what you owe." },
+      { icon: "cart", title: "Fast billing", text: "Scan barcodes, take cash, Easypaisa, JazzCash or udhaar, and send the bill on WhatsApp." },
+      { icon: "ledger", title: "Digital khata", text: "Every customer's balance, shareable statements, and live totals of what you give and take." },
       { icon: "stock", title: "Stock and expiry alerts", text: "Item counts with warnings for low stock and items close to expiry." },
       { icon: "offline", title: "Works offline", text: "Keep selling when the internet drops." },
     ],
-    // TODO: add the home screen, the bill and the banner to public/work/ (e.g. hisaab-home.webp, hisaab-bill.webp)
-    screens: [],
+    screens: [
+      { src: "/work/hisaab-home.webp", alt: "Hisaab Ghar dashboard in dark mode with today's sales, profit, bills and khata summary", ...phone },
+      { src: "/work/hisaab-pos.webp", alt: "POS billing screen with product grid, barcode search and checkout", ...phone },
+      { src: "/work/hisaab-khata.webp", alt: "Customer khata screen with outstanding balance and transaction history", ...phone },
+      { src: "/work/hisaab-bill.webp", alt: "A printed bill with items, discount, total and udhaar balance", width: 600, height: 1048 },
+    ],
     note: "Screens show sample shop data.",
+    stagger: true,
   },
   {
     id: "civicready",
     title: "CivicReady",
-    intro: "A practice app for the Canadian citizenship test, in English and French, built to be studied a few minutes at a time.",
+    intro:
+      "A practice app for the Canadian citizenship test, in English and French, with 500 questions across all 10 topics. Built to be studied a few minutes at a time.",
     features: [
-      { icon: "questions", title: "500 practice questions", text: "Across all 10 test topics." },
-      { icon: "mock", title: "Mock tests", text: "20 questions with a 75% pass mark, like the real test." },
-      { icon: "guide", title: "Study guide", text: "Read up on a topic before you test yourself." },
-      { icon: "interview", title: "Interview practice", text: "Prepare for the citizenship interview too." },
+      { icon: "questions", title: "Learn from every answer", text: "Each question explains why the correct option is right." },
+      { icon: "mock", title: "Timed mock tests", text: "20 questions with a 75% pass mark, like the real test." },
+      { icon: "progress", title: "Readiness score", text: "See how ready you are, with focus areas by topic." },
+      { icon: "interview", title: "Interview practice", text: "Questions are read aloud and you answer out loud." },
     ],
-    // TODO: add the app screenshots and banner to public/work/ (e.g. civicready-home.webp)
-    screens: [],
+    screens: [
+      { src: "/work/civic-quiz.webp", alt: "CivicReady quiz question with an explanation of the correct answer", ...phone },
+      { src: "/work/civic-mock.webp", alt: "Timed mock test screen with a countdown and multiple-choice options", ...phone },
+      { src: "/work/civic-progress.webp", alt: "Progress screen showing a readiness score of 82 and focus areas", ...phone },
+      { src: "/work/civic-interview.webp", alt: "Interview practice screen with a microphone button", ...phone },
+    ],
+    stagger: true,
   },
 ];
