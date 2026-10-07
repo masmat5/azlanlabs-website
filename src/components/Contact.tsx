@@ -4,26 +4,47 @@ import { CONTACT_EMAIL } from "../content";
 
 const NEEDS = ["Mobile app", "Desktop app", "Website", "Node.js backend / API", "Not sure yet"] as const;
 
+type Status = "idle" | "sending" | "sent" | "error";
+
 export default function Contact() {
+  const [status, setStatus] = useState<Status>("idle");
   const [msg, setMsg] = useState("");
 
-  // Opens the visitor's email app with the message filled in.
-  // Swap for a fetch() to your Node.js endpoint when the backend is ready.
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const d = new FormData(e.currentTarget);
-    const name = String(d.get("name") ?? "").trim();
-    const email = String(d.get("email") ?? "").trim();
-    const type = String(d.get("type") ?? "");
-    const message = String(d.get("message") ?? "").trim();
-    if (!name || !/^\S+@\S+\.\S+$/.test(email) || !message) {
+    const form = e.currentTarget;
+    const d = new FormData(form);
+    const payload = {
+      name: String(d.get("name") ?? "").trim(),
+      email: String(d.get("email") ?? "").trim(),
+      type: String(d.get("type") ?? ""),
+      message: String(d.get("message") ?? "").trim(),
+      company: String(d.get("company") ?? ""), // honeypot
+    };
+
+    if (!payload.name || !/^\S+@\S+\.\S+$/.test(payload.email) || !payload.message) {
+      setStatus("error");
       setMsg("Please add your name, a valid email and a short message.");
       return;
     }
-    const subject = encodeURIComponent(`New project: ${type}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nNeed: ${type}\n\n${message}`);
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setMsg(`Opening your email app… if nothing happens, write to ${CONTACT_EMAIL}`);
+
+    setStatus("sending");
+    setMsg("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) throw new Error(data.error ?? "Request failed");
+      setStatus("sent");
+      setMsg("Thanks! Your message is on its way. I'll reply within a day.");
+      form.reset();
+    } catch (err) {
+      setStatus("error");
+      setMsg(`${err instanceof Error ? err.message : "Something went wrong."} You can also email me at ${CONTACT_EMAIL}.`);
+    }
   };
 
   return (
@@ -36,14 +57,17 @@ export default function Contact() {
       </div>
 
       <form className="form" onSubmit={onSubmit} noValidate>
-        <label>Your name<input name="name" type="text" autoComplete="name" required /></label>
-        <label>Email<input name="email" type="email" autoComplete="email" required /></label>
+        <label>Your name<input name="name" type="text" autoComplete="name" maxLength={100} required /></label>
+        <label>Email<input name="email" type="email" autoComplete="email" maxLength={200} required /></label>
         <label>What do you need?
           <select name="type">{NEEDS.map((n) => <option key={n}>{n}</option>)}</select>
         </label>
-        <label>Tell me about it<textarea name="message" rows={4} required /></label>
-        <button className="btn" type="submit">Send message <Send /></button>
-        <p className="form-msg" role="status" aria-live="polite">{msg}</p>
+        <label>Tell me about it<textarea name="message" rows={4} maxLength={5000} required /></label>
+        <input className="hp" name="company" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+        <button className="btn" type="submit" disabled={status === "sending"}>
+          {status === "sending" ? "Sending…" : "Send message"} <Send />
+        </button>
+        <p className={`form-msg ${status}`} role="status" aria-live="polite">{msg}</p>
       </form>
     </section>
   );

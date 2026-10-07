@@ -186,3 +186,9 @@ svg.lucide.card-icon { width: 30px; height: 30px; color: var(--accent-ink); marg
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* contact form states */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.btn:disabled { opacity: .6; cursor: progress; transform: none; }
+.form-msg.sent { color: #1F7A45; font-weight: 600; }
+.form-msg.error { color: var(--accent-ink); font-weight: 600; }
