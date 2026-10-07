@@ -4,7 +4,10 @@ export default function Why() {
   return (
     <section className="section why">
       <div className="why-inner">
-        <h2>Why hire a one-person studio?</h2>
+        <div>
+          <h2>Why hire a one-person studio?</h2>
+          <p className="why-lead">You work with the person who builds it, from first call to launch.</p>
+        </div>
         <ul>
           <li><MessageCircle /><span><b>Direct line.</b> Your messages go to the developer, not a project manager.</span></li>
           <li><Wallet /><span><b>Fair pricing.</b> No agency overhead in your invoice.</span></li>
