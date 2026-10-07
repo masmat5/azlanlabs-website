@@ -1,10 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
-import { projects, type Project } from "../content";
+import { caseStudies, projects, type Project } from "../content";
 import { useReveal } from "../hooks";
 
 function WorkItem({ p, delay }: { p: Project; delay: number }) {
   const ref = useReveal<HTMLElement>(delay);
-  const external = Boolean(p.href);
+  const study = caseStudies.find((c) => c.id === p.caseStudy && c.screens.length > 0);
+  const href = study ? `#${study.id}` : p.href;
+  const external = Boolean(href) && !href!.startsWith("#");
+  const label = study ? "See the app" : p.linkLabel ?? (p.href ? "View project" : "Ask for a walkthrough");
   return (
     <article ref={ref} className={`work-item reveal${p.featured ? " work-big" : ""}`}>
       <span className="work-type">{p.type}</span>
@@ -13,11 +16,11 @@ function WorkItem({ p, delay }: { p: Project; delay: number }) {
       <span className="work-stack">{p.stack}</span>
       <a
         className="work-link"
-        href={p.href ?? "#contact"}
+        href={href ?? "#contact"}
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-        aria-label={`${external ? "View" : "Ask for a walkthrough of"} ${p.title}`}
+        aria-label={`${label}: ${p.title}`}
       >
-        {external ? "View project" : "Ask for a walkthrough"} <ArrowUpRight />
+        {label} <ArrowUpRight />
       </a>
     </article>
   );

@@ -24,6 +24,10 @@ export interface Project {
   featured?: boolean;
   /** Live link (store page, demo, case study). If omitted, the card links to the contact form. */
   href?: string;
+  /** Text of the card link. Defaults to "View project" (with href) or "Ask for a walkthrough". */
+  linkLabel?: string;
+  /** id of a case study in `caseStudies`. The card links to it once the case study has screenshots. */
+  caseStudy?: string;
 }
 
 export const projects: Project[] = [
@@ -34,8 +38,95 @@ export const projects: Project[] = [
     stack: "Node.js · Express · Cloud database",
     featured: true,
   },
-  { type: "Mobile · Test prep", title: "CivicReady", text: "Practice app that helps people prepare for the Canadian citizenship test.", stack: "Flutter · Supabase" },
-  { type: "Mobile · Education", title: "Thal University app", text: "A campus app for students and staff.", stack: "Flutter · Firebase" },
-  // TODO: check this description and stack match the real HisabGhar app.
-  { type: "Mobile · Finance", title: "HisabGhar", text: "An app for keeping track of accounts, income and expenses.", stack: "Flutter" },
+  {
+    type: "Mobile · Test prep",
+    title: "CivicReady",
+    text: "Practice app for the Canadian citizenship test: 500 questions across all 10 topics, mock tests, a study guide and interview practice, in English and French.",
+    stack: "Flutter · Supabase",
+    caseStudy: "civicready",
+  },
+  {
+    type: "Mobile · Education",
+    title: "Thal University app",
+    text: "Student and admissions app for Thal University, Bhakkar: grades, attendance, fees, complaints and alerts, in English and Urdu.",
+    stack: "Flutter · Firebase", // TODO: confirm the real stack
+    caseStudy: "thal",
+  },
+  {
+    type: "Mobile · POS & digital khata",
+    title: "Hisaab Ghar",
+    text: "A POS and digital khata app for shops: billing, udhaar ledgers, stock and expiry alerts, WhatsApp bills. Works offline.",
+    stack: "Flutter", // TODO: confirm the real stack
+    caseStudy: "hisaab-ghar",
+  },
+];
+
+export type IconName =
+  | "dashboard" | "attendance" | "language" | "dark"
+  | "cart" | "ledger" | "stock" | "offline"
+  | "questions" | "mock" | "guide" | "interview";
+
+export interface CaseStudyData {
+  id: string;
+  title: string;
+  intro: string;
+  features: { icon: IconName; title: string; text: string }[];
+  /** Add images to public/work/ and list them here. A case study with no screens is not shown. */
+  screens: { src: string; alt: string; width: number; height: number }[];
+  note?: string;
+  /** Stagger every second screenshot (looks best with same-size phone screens). */
+  stagger?: boolean;
+}
+
+const phone = { width: 600, height: 1067 };
+
+export const caseStudies: CaseStudyData[] = [
+  {
+    id: "thal",
+    title: "Thal University app",
+    intro:
+      "A student and admissions app for Thal University in Bhakkar. Students check results, attendance and fees, raise complaints and get alerts, in their own language.",
+    features: [
+      { icon: "dashboard", title: "One-screen dashboard", text: "CGPA, attendance, courses, fees and the next class, all on the home screen." },
+      { icon: "attendance", title: "Attendance with early warnings", text: "Course-wise records so students see problems before they become one." },
+      { icon: "language", title: "English and Urdu", text: "Full right-to-left layout, not just translated labels." },
+      { icon: "dark", title: "Dark mode", text: "A complete dark theme for late-night study." },
+    ],
+    screens: [
+      { src: "/work/thal-home.webp", alt: "Thal University app home screen showing CGPA, attendance, enrolled courses, fee status and next class", ...phone },
+      { src: "/work/thal-attendance.webp", alt: "Course-wise attendance screen with totals for present and absent classes", ...phone },
+      { src: "/work/thal-urdu.webp", alt: "The same home screen in Urdu with a right-to-left layout", ...phone },
+      { src: "/work/thal-dark.webp", alt: "Home screen in dark mode", ...phone },
+    ],
+    note: "Screens show sample student data.",
+    stagger: true,
+  },
+  {
+    id: "hisaab-ghar",
+    title: "Hisaab Ghar",
+    intro:
+      "A point-of-sale and digital khata app for shops. Billing, udhaar ledgers and stock live in one place, and it keeps working without internet.",
+    features: [
+      { icon: "cart", title: "Fast billing", text: "Tap items or scan barcodes, apply discounts and send the bill on WhatsApp." },
+      { icon: "ledger", title: "Udhaar khata", text: "Live totals of what customers owe you and what you owe." },
+      { icon: "stock", title: "Stock and expiry alerts", text: "Item counts with warnings for low stock and items close to expiry." },
+      { icon: "offline", title: "Works offline", text: "Keep selling when the internet drops." },
+    ],
+    // TODO: add the home screen, the bill and the banner to public/work/ (e.g. hisaab-home.webp, hisaab-bill.webp)
+    screens: [],
+    note: "Screens show sample shop data.",
+  },
+  {
+    id: "civicready",
+    title: "CivicReady",
+    intro: "A practice app for the Canadian citizenship test, in English and French, built to be studied a few minutes at a time.",
+    features: [
+      { icon: "questions", title: "500 practice questions", text: "Across all 10 test topics." },
+      { icon: "mock", title: "Mock tests", text: "20 questions with a 75% pass mark, like the real test." },
+      { icon: "guide", title: "Study guide", text: "Read up on a topic before you test yourself." },
+      { icon: "interview", title: "Interview practice", text: "Prepare for the citizenship interview too." },
+    ],
+    // TODO: add the app screenshots and banner to public/work/ (e.g. civicready-home.webp)
+    screens: [],
+  },
 ];
