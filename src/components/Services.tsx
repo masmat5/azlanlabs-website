@@ -41,14 +41,14 @@ export default function Services() {
           <Monitor className="card-icon" />
           <h3>Desktop apps</h3>
           <p>Windows, macOS and Linux software for internal tools, point-of-sale and dashboards.</p>
+          <Tags items={["Windows", "macOS", "Linux"]} />
         </Card>
 
-        <Card className="card-wide">
+        <Card className="card-web" delay={70}>
           <Globe className="card-icon" />
-          <div>
-            <h3>Websites</h3>
-            <p>Clear, quick, search-friendly sites that explain what you do and bring in enquiries. Built to be easy for you to update later.</p>
-          </div>
+          <h3>Websites</h3>
+          <p>Clear, quick, search-friendly sites that explain what you do and bring in enquiries. Built to be easy for you to update later.</p>
+          <Tags items={["React", "TypeScript", "SEO-ready"]} />
         </Card>
       </div>
     </section>

@@ -22,6 +22,8 @@ export interface Project {
   text: string;
   stack: string;
   featured?: boolean;
+  /** Live link (store page, demo, case study). If omitted, the card links to the contact form. */
+  href?: string;
 }
 
 export const projects: Project[] = [
@@ -32,6 +34,8 @@ export const projects: Project[] = [
     stack: "Node.js · Express · Cloud database",
     featured: true,
   },
-  { type: "Mobile · Education", title: "Thal University app", text: "A campus app for students and staff.", stack: "Flutter · Firebase" },
   { type: "Mobile · Test prep", title: "CivicReady", text: "Practice app that helps people prepare for the Canadian citizenship test.", stack: "Flutter · Supabase" },
+  { type: "Mobile · Education", title: "Thal University app", text: "A campus app for students and staff.", stack: "Flutter · Firebase" },
+  // TODO: check this description and stack match the real HisabGhar app.
+  { type: "Mobile · Finance", title: "HisabGhar", text: "An app for keeping track of accounts, income and expenses.", stack: "Flutter" },
 ];
